@@ -41,7 +41,7 @@ export const entries = (str, options) => {
 				if(options && options.bracesCallback) value = options.bracesCallback(value);
 				return value;
 			} else if (datatype === 'identifier') {
-				return strings[value] || '';
+				return strings[value] || value;
 			} else if (datatype === 'concatinate') {
 				return value
 					.map(({ datatype, value }) => evaluate(datatype, value))
