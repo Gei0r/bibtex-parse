@@ -1,7 +1,7 @@
 (function (global, factory) {
   typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports) :
   typeof define === 'function' && define.amd ? define(['exports'], factory) :
-  (global = global || self, factory(global['bibtex-parse'] = {}));
+  (global = typeof globalThis !== 'undefined' ? globalThis : global || self, factory(global['bibtex-parse'] = {}));
 }(this, (function (exports) { 'use strict';
 
   var parser = /*
@@ -2197,7 +2197,7 @@
   			if (datatype === 'number') {
   				return value;
   			} else if (datatype === 'quoted' || datatype === 'braced') {
-                if(options.bracesCallback) value = options.bracesCallback(value);
+  				if(options && options.bracesCallback) value = options.bracesCallback(value);
   				return stripMatchingBraces(value).replace(/\\(["'%@{}()_])/g, '$1'); // unescape characters
   			} else if (datatype === 'identifier') {
   				return strings[value] || '';
@@ -2225,7 +2225,7 @@
 
   var index = { parse, entries };
 
-  exports.default = index;
+  exports['default'] = index;
   exports.entries = entries;
   exports.parse = parse;
 

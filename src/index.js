@@ -35,6 +35,7 @@ export const entries = (str, options) => {
 			if (datatype === 'number') {
 				return value;
 			} else if (datatype === 'quoted' || datatype === 'braced') {
+				if(options && options.bracesCallback) value = options.bracesCallback(value);
 				return stripMatchingBraces(value).replace(/\\(["'%@{}()_])/g, '$1'); // unescape characters
 			} else if (datatype === 'identifier') {
 				return strings[value] || '';
