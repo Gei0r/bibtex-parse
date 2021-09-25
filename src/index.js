@@ -38,7 +38,6 @@ export const entries = (str, options) => {
 			if (datatype === 'number') {
 				return value;
 			} else if (datatype === 'quoted' || datatype === 'braced') {
-				if(options && options.bracesCallback) value = options.bracesCallback(value);
 				return value;
 			} else if (datatype === 'identifier') {
 				return strings[value] || value;
