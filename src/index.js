@@ -27,6 +27,9 @@ const stripMatchingBraces = str => {
 	return str;
 };
 
+export const postprocess =
+	value => stripMatchingBraces(value).replace(/\\(["'%@{}()_])/g, '$1');
+
 export const entries = (str, options) => {
 	let items = parse(str, options),
 		entries = [],
@@ -35,9 +38,9 @@ export const entries = (str, options) => {
 			if (datatype === 'number') {
 				return value;
 			} else if (datatype === 'quoted' || datatype === 'braced') {
-				return stripMatchingBraces(value).replace(/\\(["'%@{}()_])/g, '$1'); // unescape characters
+				return value;
 			} else if (datatype === 'identifier') {
-				return strings[value] || '';
+				return strings[value] || value;
 			} else if (datatype === 'concatinate') {
 				return value
 					.map(({ datatype, value }) => evaluate(datatype, value))
@@ -60,4 +63,4 @@ export const entries = (str, options) => {
 	return entries;
 };
 
-export default { parse, entries };
+export default { parse, entries, postprocess };

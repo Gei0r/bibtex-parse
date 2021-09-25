@@ -2193,6 +2193,9 @@
   	return str;
   };
 
+  const postprocess =
+  	value => stripMatchingBraces(value).replace(/\\(["'%@{}()_])/g, '$1');
+
   const entries = (str, options) => {
   	let items = parse(str, options),
   		entries = [],
@@ -2201,9 +2204,9 @@
   			if (datatype === 'number') {
   				return value;
   			} else if (datatype === 'quoted' || datatype === 'braced') {
-  				return stripMatchingBraces(value).replace(/\\(["'%@{}()_])/g, '$1'); // unescape characters
+  				return value;
   			} else if (datatype === 'identifier') {
-  				return strings[value] || '';
+  				return strings[value] || value;
   			} else if (datatype === 'concatinate') {
   				return value
   					.map(({ datatype, value }) => evaluate(datatype, value))
@@ -2226,11 +2229,12 @@
   	return entries;
   };
 
-  var index = { parse, entries };
+  var index = { parse, entries, postprocess };
 
   exports['default'] = index;
   exports.entries = entries;
   exports.parse = parse;
+  exports.postprocess = postprocess;
 
   Object.defineProperty(exports, '__esModule', { value: true });
 
